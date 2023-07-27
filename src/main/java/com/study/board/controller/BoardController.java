@@ -37,4 +37,9 @@ public class BoardController {
         return "boardlist";
 
     }
+    @GetMapping("/board/view")
+    public String boardView(){
+
+        return "boardview";
+    }
 }
