@@ -43,11 +43,18 @@ public class BoardController {
         return "message";
     }
 
-    @GetMapping("/board/list")
-                                                                            // page : 첫페이지 :size 페이지 크기 sort :정렬 direction : 정렬순서
-    public String boardList(Model model, @PageableDefault(page = 0, size =10,sort = "id",direction= Sort.Direction.DESC) Pageable pageable) {
+    @GetMapping("/board/list")                                       // page : 첫페이지 :size 페이지 크기 sort :정렬 direction : 정렬순서
+    public String boardList(Model model, @PageableDefault(page = 0, size =10,sort = "id", direction= Sort.Direction.DESC) Pageable pageable, String searchKeyword) {
 
-        Page<Board> list = boardService.boardList(pageable);
+        Page<Board> list = null;
+
+        if(searchKeyword == null){
+            list = boardService.boardList(pageable);
+        }else{
+            list = boardService.boardSearchList(searchKeyword,pageable);
+        }
+
+//        Page<Board> list = boardService.boardList(pageable);
         //pageable.getPageNumber() pageable이 가지고 있는 페이지수는 0부터 시작하므로 +1해줘야함
         int nowPage   = pageable.getPageNumber()+1;
         //Math.max메서드는 nowPage -4 값과 1 값을 비교해서 높은 값을 보여줌
@@ -55,7 +62,8 @@ public class BoardController {
         //Math.min메서드는 nowPage +5 값과 list.getTotalPages()을 비교해 더낮은 값을 보여줌
         int endPage   = Math.min(nowPage +5,list.getTotalPages());
 
-        model.addAttribute("list",boardService.boardList(pageable));
+//        model.addAttribute("list",boardService.boardList(pageable));
+        model.addAttribute("list",list);
         model.addAttribute("nowPage", nowPage);
         model.addAttribute("startPage", startPage);
         model.addAttribute("endPage", endPage);
