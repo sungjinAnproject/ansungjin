@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>게시물 작성 폼</title>
 </head>
+
 <style>
 
     .layout {
@@ -28,9 +29,10 @@
 </style>
 <body>
 <div class = "layout">
-    <form action = "/board/writepro" method="post">
+    <form action = "/board/writepro" method="post" enctype="multipart/form-data">
         <input name = "title" type = "text">
         <textarea name = "content"></textarea>
+        <input th:type="file" name="file">
         <button type="submit">작성</button>
 
     </form>
