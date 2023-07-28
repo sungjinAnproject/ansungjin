@@ -27,10 +27,18 @@
           <tbody>
               <tr th:each="board:${list}">
                 <td th:text="${board.id}">1</td>
-                <td th:text="${board.title}">제목입니다.</td>
+<!--                                                        localhost:8080/board/view?id={board.id}-->
+                <td>
+                    <a th:text="${board.title}" th:href="@{/board/view(id=${board.id})}"></a>
+                </td>
               </tr>
           </tbody>
       </table>
+
+      <th:block th:each="page : ${#numbers.sequence(startPage, endPage)}">
+          <a th:if="${page != nowPage}" th:href="@{/board/list(page= ${page -1})}" th:text="${page}"></a>
+          <strong th:if="${page == nowPage}" th:text="${page}" style="color: red"></strong>
+      </th:block>
   </div>
 </body>
 </html>
